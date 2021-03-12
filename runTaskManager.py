@@ -3,6 +3,25 @@ import json
 import os
 import time
 
+class placeholder():
+    def __init__(self):
+        __TEMP_TIME = time.localtime(time.time())
+        self.timeYears = time.strftime('%Y', __TEMP_TIME)
+        self.timeMonths = time.strftime('%m', __TEMP_TIME)
+        self.timeDays = time.strftime('%d', __TEMP_TIME)
+        self.timeHours = time.strftime('%H', __TEMP_TIME)
+        self.timeMinutes = time.strftime('%M', __TEMP_TIME)
+        self.timeSeconds = time.strftime('%S', __TEMP_TIME)
+    
+    def replace(self, content):
+        content = content.replace("{YEAR}", self.timeYears)
+        content = content.replace("{MONTH}", self.timeMonths)
+        content = content.replace("{DAY}", self.timeDays)
+        content = content.replace("{HOUR}", self.timeHours)
+        content = content.replace("{MINUTE}", self.timeMinutes)
+        content = content.replace("{SECOND}", self.timeSeconds)
+        return content
+
 class RunServerTask():
     __DEFAULT_CONFIG = [
         {
@@ -48,7 +67,7 @@ class RunServerTask():
             print("[Main/INFO]  执行命令:")
             for command in item["runCommands"]:
                 print("[Main/INFO]  - {}".format(command))
-                os.system(command)
+                os.system(placeholder().replace(command))
     
     def saveJSON(self, filePath, configObject):
         try:
